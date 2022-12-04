@@ -8,8 +8,7 @@ This project takes pandas dataframe and gives summary statistics and individual 
 
 
 ## Installation:
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install Distribution_1_2
-```bash
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install exploratory
 pip install exploratory
 ```
 ## Usage:
