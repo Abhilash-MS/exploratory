@@ -20,5 +20,5 @@ EDA(df)
 # df --> pandas dataframe
 ```
 ## Contributing
-Pull requests are welcome.Please use this git link https://github.com/Abhilash-MS/exploratory  For major changes, please open an issue first to discuss what you would like to change.
+Pull requests are welcome.Please use this git link 'https://github.com/Abhilash-MS/exploratory'  For major changes, please open an issue first to discuss what you would like to change.
 Please feel free to contact authors for any suggestions or issues,  Ram <kakarlaramcharan@gmail.com>, Abhilash <abhilashmaspalli1996@gmail.com> 
