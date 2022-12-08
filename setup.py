@@ -1,6 +1,10 @@
+import os
 from setuptools import setup, find_packages
 
-VERSION = '3.3.3' 
+def read(fname):
+    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
+VERSION = '3.4.1' 
 DESCRIPTION = 'Exploratory Data Analysis'
 LONG_DESCRIPTION = 'Python package to do exploratory data analysis and provide results in PDF'
 
@@ -11,7 +15,8 @@ setup(
         author='Ram <kakarlaramcharan@gmail.com>, Abhilash <abhilashmaspalli1996@gmail.com>',
         #author_email=['kakarlaramcharan@gmail.com, abhilashmaspalli1996@gmail.com',]
         description=DESCRIPTION,
-        long_description=LONG_DESCRIPTION,
+        long_description=read('README.md'),
+        long_description_content_type="text/markdown",
          packages=find_packages(),
        install_requires=[
         'pandas',
@@ -21,8 +26,8 @@ setup(
         'pathlib',
         'PyPDF2'], # add any additional packages that 
         # needs to be installed along with your package. Eg: 'caer'
-        keywords=['python', 'EDA', 'PDF','Summary Statistics','Distribution Plot'],
-        url='https://github.com/Abhilash-MS?tab=repositories',
+        keywords=['python', 'EDA', 'PDF', 'CDF','Summary Statistics','Mean','Median','Mode','Distribution Plot'],
+        url='https://github.com/Abhilash-MS/exploratory',
         classifiers= [
             "Intended Audience :: Education",
             "Programming Language :: Python :: 3",
