@@ -1,8 +1,30 @@
+import pandas as pd
+    import seaborn as sns
+    from fpdf import FPDF
+    import matplotlib.pyplot as plt
+    import pathlib
+    plt.style.use('ggplot')
+    import glob
+    import os
+    import string
+    import random
+    import re
+    import matplotlib.backends.backend_pdf
+    from matplotlib.pyplot import show
+    from PyPDF2 import PdfFileMerger
+    sns.set(style="darkgrid")
+    sns.set(rc={'figure.figsize':(11.7,8.27)})
+    #sns.set(rc={'figure.figsize':(11.7,8.27),"figure.dpi":300, 'savefig.dpi':300})
+    pd.options.display.float_format = '{:20,.2f}'.format
+    import matplotlib.pyplot as plt
+    from matplotlib.backends.backend_pdf import PdfPages
+    import warnings
+    warnings.filterwarnings('ignore')
+
 def data_type_change(df,max_threshold_levels_for_integer_datatype):    
-    #Code does the following 3 parts
+    #Code does the following 2 parts
     # This block of code identifies the integer variables misrepresented as floats and converts them back to integers, 
     # Drops the unique identifier variables
-    # Generates descriptive stats
 
     print('#'*100)
     print('Droppping unique identifiers for exploratory analysis, changing to accurate data types for analysis')
@@ -15,6 +37,7 @@ def data_type_change(df,max_threshold_levels_for_integer_datatype):
 
 
     variable_dtypes['total_count']=len(df)
+    #Here we are finding the unique rate withh the help of unique/total count 
     variable_dtypes['unique_rate']=variable_dtypes['unique']/variable_dtypes['total_count']
     variable_dtypes[variable_dtypes['unique_rate']==1]['Variable'].to_list()
     percent_missing = df.isnull().sum() * 100 / len(df)
@@ -58,8 +81,7 @@ def data_type_change(df,max_threshold_levels_for_integer_datatype):
     return df_metadata
 
 def summary_statistics(df_metadata,directory_path_of_data):
-    import matplotlib.pyplot as plt
-    from matplotlib.backends.backend_pdf import PdfPages
+    ''' This function would give summary statistics like pandas dataframe description like Cardinality, missing values, min, max, mean, quantiles etx..'''
     plt.style.use('ggplot')
     
     df_metadata_to_pdf=df_metadata
@@ -67,9 +89,6 @@ def summary_statistics(df_metadata,directory_path_of_data):
         df_metadata_to_pdf['range'] = df_metadata_to_pdf['max']-df_metadata_to_pdf['min']
     df_metadata_to_pdf.rename(columns={'unique': 'cardinality','50%': 'median'}, inplace=True)
     df_metadata_to_pdf = df_metadata_to_pdf.astype({'cardinality': int})
-    if 'max' in df_metadata.columns:
-        df_metadata_to_pdf.drop(['total_count','min','max','25%','75%','unique_rate'],axis=1,inplace=True)
-    #write_to_html_file(df_metadata_to_pdf, main_title_inside_pdf,sub_title_inside_pdf,sub1_title_inside_pdf,directory_path_of_data+'/'+project_name+'.html')
     print('#'*100)
     print('Generating CSV of summary statistics')
     print('#'*100)
@@ -96,14 +115,7 @@ def summary_statistics(df_metadata,directory_path_of_data):
     print('#'*100)
     
 def integer_datatype_variable(df,dpi_value,max_threshold_levels_for_integer_datatype,int_var_path,directory_path_of_data):
-    import seaborn as sns
-    sns.set(style="darkgrid")
-    #sns.set(rc={'figure.figsize':(11.7,8.27)})
-    sns.set(rc={'figure.figsize':(11.7,8.27),"figure.dpi":dpi_value, 'savefig.dpi':dpi_value})
-    import matplotlib.pyplot as plt
-    import os
-    import glob
-    from fpdf import FPDF
+    '''This function helps in analysing the integer data types variables and converts into a flot variable PDF'''
     
     print('#'*100)
     print('Starting Integer data type variables exploratory analysis ')
@@ -116,6 +128,7 @@ def integer_datatype_variable(df,dpi_value,max_threshold_levels_for_integer_data
     df_int=df_int.drop(variable_d1types[(variable_d1types['unique']>max_threshold_levels_for_integer_datatype)]['Variable'].to_list(),axis=1)
 
     total = float(len(df_int))
+    #here we are setting the user provided DPI value
     sns.set(rc={'figure.figsize':(11.7,8.27),"figure.dpi":dpi_value, 'savefig.dpi':dpi_value})
     for cole in df_int.columns:
         ax = sns.countplot(x=cole, data=df_int) # for Seaborn version 0.7 and more
@@ -171,17 +184,11 @@ def integer_datatype_variable(df,dpi_value,max_threshold_levels_for_integer_data
     
     
 def float_datatype_variable(df,dpi_value,max_threshold_levels_for_integer_datatype,float_var_path,directory_path_of_data):
-    import seaborn as sns
-    sns.set(style="darkgrid")
-    #sns.set(rc={'figure.figsize':(11.7,8.27)})
-    sns.set(rc={'figure.figsize':(11.7,8.27),"figure.dpi":dpi_value, 'savefig.dpi':dpi_value})
-    import matplotlib.pyplot as plt
-    import os
-    import glob
-    from fpdf import FPDF
+    ''' This function helps in analyzing the Flot data type variables and converts into a flot variable PDF'''
     print('#'*100)
     print('Starting Float data type variables exploratory analysis ')
     print('#'*100)
+     #here we are setting the user provided DPI value
     sns.set(rc={'figure.figsize':(11.7,8.27),"figure.dpi":dpi_value, 'savefig.dpi':dpi_value})
     df_float=df.select_dtypes(include=['float'])
     total = float(len(df_float))
@@ -239,16 +246,7 @@ def float_datatype_variable(df,dpi_value,max_threshold_levels_for_integer_dataty
     
 
 def string_datatype_variable(df_metadata,dpi_value,max_threshold_levels_for_integer_datatype,cat_var_path,directory_path_of_data):
-    import re
-    import seaborn as sns
-    sns.set(style="darkgrid")
-    #sns.set(rc={'figure.figsize':(11.7,8.27)})
-    sns.set(rc={'figure.figsize':(11.7,8.27),"figure.dpi":dpi_value, 'savefig.dpi':dpi_value})
-    import matplotlib.pyplot as plt
-    import os
-    import glob
-    from fpdf import FPDF
-    import re
+     ''' This function helps in analyzing the String data type variables and converts into a flot variable PDF'''
     print('#'*100)
     print('Starting String/object data type variables exploratory analysis ')
     print('#'*100)
@@ -325,15 +323,7 @@ def string_datatype_variable(df_metadata,dpi_value,max_threshold_levels_for_inte
     print('#'*100) 
     
 def combine_all_PDF(directory_path_of_data,output_pdf):
-    import re
-    import seaborn as sns
-    sns.set(style="darkgrid")
-    import matplotlib.pyplot as plt
-    import os
-    import glob
-    from fpdf import FPDF
-    import re
-    from PyPDF2 import PdfFileMerger
+    # This function helps in generating one single PDF by commbining all other PDF's'''
     print('#'*100)
     print('Generating Combined PDF for all data type variables')
     print('#'*100) 
@@ -385,29 +375,7 @@ def combine_all_PDF(directory_path_of_data,output_pdf):
     print('#'*100) 
     
 def EDA(df):
-    import pandas as pd
-    import seaborn as sns
-    from fpdf import FPDF
-    import matplotlib.pyplot as plt
-    import pathlib
-    plt.style.use('ggplot')
-    import glob
-    import os
-    import string
-    import random
-    import re
-    import matplotlib.backends.backend_pdf
-    from matplotlib.pyplot import show
-    from PyPDF2 import PdfFileMerger
-    sns.set(style="darkgrid")
-    #sns.set(rc={'figure.figsize':(11.7,8.27)})
-    sns.set(rc={'figure.figsize':(11.7,8.27),"figure.dpi":300, 'savefig.dpi':300})
-    pd.options.display.float_format = '{:20,.2f}'.format
-    import matplotlib.pyplot as plt
-    from matplotlib.backends.backend_pdf import PdfPages
-    import warnings
-    warnings.filterwarnings('ignore')
-    
+    ''' This is the main function where all other fuctions are called and here it create 3 diferent folders to save different data type variables'''
     #Path where data is located
     directory_path_of_data=os.getcwd()+'/'
     print('Current Path/Directory:'+directory_path_of_data)
