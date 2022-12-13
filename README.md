@@ -18,7 +18,7 @@ pip install exploratory
 from exploratory import EDA
 EDA(df)
 # df --> pandas dataframe
-#Please input the DPI value, as DPI value increases runtime would increase 
+#Please input the DPI value, as DPI value increases runtime would increase. Default DPI value: 150
 ```
 ## Contributing
 Pull requests are welcome.For major changes, please open an issue first to discuss what you would like to change.
