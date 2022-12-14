@@ -1,25 +1,25 @@
 import pandas as pd
-    import seaborn as sns
-    from fpdf import FPDF
-    import matplotlib.pyplot as plt
-    import pathlib
-    plt.style.use('ggplot')
-    import glob
-    import os
-    import string
-    import random
-    import re
-    import matplotlib.backends.backend_pdf
-    from matplotlib.pyplot import show
-    from PyPDF2 import PdfFileMerger
-    sns.set(style="darkgrid")
-    sns.set(rc={'figure.figsize':(11.7,8.27)})
-    #sns.set(rc={'figure.figsize':(11.7,8.27),"figure.dpi":300, 'savefig.dpi':300})
-    pd.options.display.float_format = '{:20,.2f}'.format
-    import matplotlib.pyplot as plt
-    from matplotlib.backends.backend_pdf import PdfPages
-    import warnings
-    warnings.filterwarnings('ignore')
+import seaborn as sns
+from fpdf import FPDF
+import matplotlib.pyplot as plt
+import pathlib
+plt.style.use('ggplot')
+import glob
+import os
+import string
+import random
+import re
+import matplotlib.backends.backend_pdf
+from matplotlib.pyplot import show
+from PyPDF2 import PdfFileMerger
+sns.set(style="darkgrid")
+sns.set(rc={'figure.figsize':(11.7,8.27)})
+#sns.set(rc={'figure.figsize':(11.7,8.27),"figure.dpi":300, 'savefig.dpi':300})
+pd.options.display.float_format = '{:20,.2f}'.format
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_pdf import PdfPages
+import warnings
+warnings.filterwarnings('ignore')
 
 def data_type_change(df,max_threshold_levels_for_integer_datatype):    
     #Code does the following 2 parts
@@ -49,7 +49,7 @@ def data_type_change(df,max_threshold_levels_for_integer_datatype):
     other_metrics.drop(['count'],axis=1,inplace=True)
     variable_dtypes=variable_dtypes.merge(other_metrics,on='Variable', how='left')
     
-    #exception handling for all categorical variables data frame
+    #exception handling if categorical variables alone are present in the DataFrame
     if 'unique' in variable_dtypes:
         pass
     else:
@@ -380,13 +380,7 @@ def EDA(df):
     directory_path_of_data=os.getcwd()+'/'
     print('Current Path/Directory:'+directory_path_of_data)
     
-    #Only for this dataset
-    column=df.columns[0]
-
-    if 'segsurvey2019_sub_segscore_w' in column:
-        print('string found')
-        df = df.rename(columns=lambda x: re.sub('segsurvey2019_sub_segscore_w.','',x))
-
+    
     # Any variable with levels greater than below number will be considered as int
     max_threshold_levels_for_integer_datatype=16
     
