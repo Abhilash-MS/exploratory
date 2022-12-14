@@ -8,6 +8,7 @@ import glob
 import os
 import string
 import random
+import shutil
 import re
 import matplotlib.backends.backend_pdf
 from matplotlib.pyplot import show
@@ -25,7 +26,6 @@ def data_type_change(df,max_threshold_levels_for_integer_datatype):
     #Code does the following 2 parts
     # This block of code identifies the integer variables misrepresented as floats and converts them back to integers, 
     # Drops the unique identifier variables
-
     print('#'*100)
     print('Droppping unique identifiers for exploratory analysis, changing to accurate data types for analysis')
     print('#'*100)
@@ -49,7 +49,7 @@ def data_type_change(df,max_threshold_levels_for_integer_datatype):
     other_metrics.drop(['count'],axis=1,inplace=True)
     variable_dtypes=variable_dtypes.merge(other_metrics,on='Variable', how='left')
     
-    #exception handling if categorical variables alone are present in the DataFrame
+    #exception handling if only categorical variables are present in the DataFrame
     if 'unique' in variable_dtypes:
         pass
     else:
@@ -82,7 +82,6 @@ def data_type_change(df,max_threshold_levels_for_integer_datatype):
 
 def summary_statistics(df_metadata,directory_path_of_data):
     ''' This function would give summary statistics like pandas dataframe description like Cardinality, missing values, min, max, mean, quantiles etx..'''
-    plt.style.use('ggplot')
     
     df_metadata_to_pdf=df_metadata
     if 'max' in df_metadata.columns:
@@ -115,8 +114,7 @@ def summary_statistics(df_metadata,directory_path_of_data):
     print('#'*100)
     
 def integer_datatype_variable(df,dpi_value,max_threshold_levels_for_integer_datatype,int_var_path,directory_path_of_data):
-    '''This function helps in analysing the integer data types variables and converts into a flot variable PDF'''
-    
+    '''This function helps in analysing the integer data types variables and converts into a flot variable PDF''' 
     print('#'*100)
     print('Starting Integer data type variables exploratory analysis ')
     print('#'*100)
@@ -246,7 +244,7 @@ def float_datatype_variable(df,dpi_value,max_threshold_levels_for_integer_dataty
     
 
 def string_datatype_variable(df_metadata,dpi_value,max_threshold_levels_for_integer_datatype,cat_var_path,directory_path_of_data):
-     ''' This function helps in analyzing the String data type variables and converts into a flot variable PDF'''
+    ''' This function helps in analyzing the String data type variables and converts into a flot variable PDF'''
     print('#'*100)
     print('Starting String/object data type variables exploratory analysis ')
     print('#'*100)
@@ -323,7 +321,7 @@ def string_datatype_variable(df_metadata,dpi_value,max_threshold_levels_for_inte
     print('#'*100) 
     
 def combine_all_PDF(directory_path_of_data,output_pdf):
-    # This function helps in generating one single PDF by commbining all other PDF's'''
+    '''This function helps in generating one single PDF by commbining all other PDF's'''
     print('#'*100)
     print('Generating Combined PDF for all data type variables')
     print('#'*100) 
@@ -366,6 +364,14 @@ def combine_all_PDF(directory_path_of_data,output_pdf):
     #Cleaning up cat pdf
     try:      
         os.remove(directory_path_of_data+"data_exploration_"+"cat_vars"+".pdf")
+    except:
+        print('Data not found')
+     #Cleaning up graphs folder
+    try:
+        folder='graphs'
+        parent=directory_path_of_data
+        path=os.path.join(parent,folder)
+        shutil.rmtree(path)
     except:
         print('Data not found')
 
