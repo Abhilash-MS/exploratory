@@ -108,7 +108,9 @@ def summary_statistics(df_metadata,directory_path_of_data):
     pp = PdfPages('summary_stats.pdf')
     pp.savefig(fig, bbox_inches='tight')
     pp.close()
-
+    del ax,fig
+    plt.cla()
+    
     print('#'*100)
     print('Completed PDF generation summary statistics')
     print('#'*100)
