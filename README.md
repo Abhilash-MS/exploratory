@@ -20,7 +20,7 @@ EDA(df)
 # df --> pandas dataframe
 #Please input the DPI value, as DPI value increases runtime would increase. Default DPI value: 150
 ```
-## Run:
+## Example Run:
 
 ![Exploratory Run](https://user-images.githubusercontent.com/114361354/207988464-669b7eec-5119-4ef3-88fe-bd094917ef16.gif)
 
