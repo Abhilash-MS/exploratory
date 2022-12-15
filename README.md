@@ -22,7 +22,8 @@ EDA(df)
 ```
 ## Run:
 
-![Exploratory Run](https://user-images.githubusercontent.com/114361354/207987543-701d3460-b112-4f65-8c5b-c26dcfefcae5.gif)
+![Exploratory Run](https://user-images.githubusercontent.com/114361354/207988464-669b7eec-5119-4ef3-88fe-bd094917ef16.gif)
+
 
 ## Expected Outputs:
 * CSV File, DataFrame Containing 
