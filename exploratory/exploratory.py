@@ -49,7 +49,7 @@ def data_type_change(df,max_threshold_levels_for_integer_datatype):
     other_metrics.drop(['count'],axis=1,inplace=True)
     variable_dtypes=variable_dtypes.merge(other_metrics,on='Variable', how='left')
     
-    #exception handling if only categorical variables are present in the DataFrame
+    #exception handling if only categorical variables alone are present in the DataFrame
     if 'unique' in variable_dtypes:
         pass
     else:
@@ -91,7 +91,7 @@ def summary_statistics(df_metadata,directory_path_of_data):
     print('#'*100)
     print('Generating CSV of summary statistics')
     print('#'*100)
-    df_metadata_to_pdf.to_csv(directory_path_of_data+'Summary_Statistics.csv')
+    df_metadata_to_pdf.to_csv(directory_path_of_data+'Summary_Statistics.csv',index_label='Serial Number')
     print('Check the Summary_Statistics.csv in the following directory '+directory_path_of_data, '!!')
     print('#'*100)
     print('Completed CSV generation of summary statistics')
@@ -166,7 +166,7 @@ def integer_datatype_variable(df,dpi_value,max_threshold_levels_for_integer_data
 
     pdf = FPDF('P','mm','A4') # create an A4-size pdf document 
     pdf = FPDF()
-    x,y,w,h = 0,25,200,200
+    x,y,w,h = 10,25,200,100
 
     for image in imagelist:
         pdf.add_page()
@@ -228,7 +228,7 @@ def float_datatype_variable(df,dpi_value,max_threshold_levels_for_integer_dataty
 
     pdf = FPDF('P','mm','A4') # create an A4-size pdf document 
     pdf = FPDF()
-    x,y,w,h = 0,25,150,150
+    x,y,w,h = 10,25,200,150
 
     for image in imagelist:
         pdf.add_page()
@@ -306,7 +306,7 @@ def string_datatype_variable(df_metadata,dpi_value,max_threshold_levels_for_inte
 
     pdf = FPDF('P','mm','A4') # create an A4-size pdf document 
     pdf = FPDF()
-    x,y,w,h = 0,25,150,150
+    x,y,w,h = 10,25,200,150
 
     for image in imagelist:
         pdf.add_page()
