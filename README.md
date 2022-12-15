@@ -20,6 +20,29 @@ EDA(df)
 # df --> pandas dataframe
 #Please input the DPI value, as DPI value increases runtime would increase. Default DPI value: 150
 ```
+##Expected Outputs:
+* CSV File, DataFrame Containing 
+
+| Column          | Description                                                         |
+|-----------------|---------------------------------------------------------------------|
+| Variable        | Variable Name in the dataset provided                               |
+| Cardinality     | Number of levels/classes in each variable                           |
+| total_count     | Count of total records (non null)                                   |
+| unique_rate     | Cardinality / total_count, Unique Rate of 1 indicates a ID variable |
+| percent_missing | Percentage of missing values across each column                     |
+| mean            | Average of column (Ignores Object/String variables)                 |
+| std             | Standard deviation of column (Ignores Object/String variables)      |
+| min             | Minimum of column (Ignores Object/String variables)                 |
+| 25%             | 25th percentile value of column (Ignores Object/String variables)   |
+| median          | 50th percentile value of column (Ignores Object/String variables)   |
+| 75%             | 75th percentile value of column (Ignores Object/String variables)   |
+| max             | Maximum of column (Ignores Object/String variables)                 |
+| data_types      | Data type of column (Int / Float / Object etc)                      |
+| range           | Max Value - Min Value (Ignores Object/String variables)             |
+
+* PDF with Statistical Summary and variable distribution graphs  (categorical & continous)
+
+
 ## Contributing
 Pull requests are welcome.For major changes, please open an issue first to discuss what you would like to change.
 Please feel free to contact authors for any suggestions or issues,  Ram <kakarlaramcharan@gmail.com>, Abhilash <abhilashmaspalli1996@gmail.com> 
