@@ -14,6 +14,7 @@ import matplotlib.backends.backend_pdf
 from matplotlib.pyplot import show
 from PyPDF2 import PdfFileMerger
 sns.set(style="darkgrid")
+sns.set_style(rc={"pdf.fonttype": 3})
 sns.set(rc={'figure.figsize':(11.7,8.27)})
 #sns.set(rc={'figure.figsize':(11.7,8.27),"figure.dpi":300, 'savefig.dpi':300})
 pd.options.display.float_format = '{:20,.2f}'.format
@@ -39,6 +40,7 @@ def data_type_change(df,max_threshold_levels_for_integer_datatype):
     variable_dtypes['total_count']=len(df)
     #Here we are finding the unique rate withh the help of unique/total count 
     variable_dtypes['unique_rate']=variable_dtypes['unique']/variable_dtypes['total_count']
+    variable_dtypes['unique_rate']*100
     variable_dtypes[variable_dtypes['unique_rate']==1]['Variable'].to_list()
     percent_missing = df.isnull().sum() * 100 / len(df)
     missing_value_df = pd.DataFrame({'Variable': df.columns,'percent_missing': percent_missing})
@@ -140,7 +142,8 @@ def integer_datatype_variable(df,dpi_value,max_threshold_levels_for_integer_data
                     height + 3,
                     '{:.2%}'.format(height/total),
                     ha="center")
-            ax.figure.savefig(int_var_path+cole+".png")
+            #ax.figure.savefig(int_var_path+cole+".png")
+            plt.savefig(int_var_path+cole+'.pdf', dpi=dpi_value)
         ax=sns.countplot(x=cole, data=df_int).clear()
         plt.cla()
 
@@ -154,29 +157,26 @@ def integer_datatype_variable(df,dpi_value,max_threshold_levels_for_integer_data
     os.chdir(directory_path_of_data)
     # set here
     image_directory = int_var_path
-    extensions = ('*.png') #add your image extentions
+    extensions = ('*.pdf') #add your image extentions
     # set 0 if you want to fit pdf to image
     # unit : pt
     margin = 10
 
-    imagelist=glob.glob(image_directory+'*.png')
+    pdflist=glob.glob(image_directory+'*.pdf')
+    
+    pdflist.sort(key=os.path.getmtime)
+    pdfs = pdflist
+    merger = PdfFileMerger()
 
-    try:
-        imagelist.remove(int_var_path+'.')
-    except:
-        print ('No other file format detected')
+    for pdf in pdfs:
+        merger.append(pdf,import_bookmarks=False )
 
-    pdf = FPDF('P','mm','A4') # create an A4-size pdf document 
-    pdf = FPDF()
-    x,y,w,h = 10,25,200,100
+    merger.write(directory_path_of_data+'data_exploration_int_vars.pdf')
+    merger.close()
+    
+    
 
-    for image in imagelist:
-        pdf.add_page()
-        pdf.set_font('Helvetica', 'B', 16)
-        pdf.cell(170, 10, image.split('/')[-1][:-4])    
-        pdf.image(image,x,y,w,h)
-
-    pdf.output("data_exploration_"+"int_vars"+".pdf","F")
+    #pdf.output("data_exploration_"+"int_vars"+".pdf","F")
 
     print('#'*100)
     print('PDF Generation complete for Integer data type variables')
@@ -202,7 +202,8 @@ def float_datatype_variable(df,dpi_value,max_threshold_levels_for_integer_dataty
         ax.axvline(median, color='g', linestyle='-',label='{0} = {1}'.format("Median", median))
         ax.axvline(mode, color='b', linestyle='-',label='{0} = {1}'.format("Mode", mode))
         plt.legend()
-        ax.figure.savefig(float_var_path+cole+".png")
+        #ax.figure.savefig(float_var_path+cole+".png")
+        plt.savefig(float_var_path+cole+'.pdf', dpi=dpi_value)
         ax=sns.distplot(df_float[cole],bins=50).clear()
         plt.cla()
 
@@ -219,26 +220,21 @@ def float_datatype_variable(df,dpi_value,max_threshold_levels_for_integer_dataty
     extensions = ('*.png') #add your image extentions
     # set 0 if you want to fit pdf to image
     # unit : pt
-    margin = 10
+    
+    pdflist=glob.glob(image_directory+'*.pdf')
+    
+    pdflist.sort(key=os.path.getmtime)
+    pdfs = pdflist
+    merger = PdfFileMerger()
 
-    imagelist=glob.glob(image_directory+'*.png')
+    for pdf in pdfs:
+        merger.append(pdf,import_bookmarks=False )
 
-    try:
-        imagelist.remove(float_var_path+'.')
-    except:
-        print ('No other file format detected')
+    merger.write(directory_path_of_data+'data_exploration_float_vars.pdf')
+    merger.close()
 
-    pdf = FPDF('P','mm','A4') # create an A4-size pdf document 
-    pdf = FPDF()
-    x,y,w,h = 10,25,200,150
 
-    for image in imagelist:
-        pdf.add_page()
-        pdf.set_font('Helvetica', 'B', 16)
-        pdf.cell(170, 10, image.split('/')[-1][:-4])    
-        pdf.image(image,x,y,w,h)
-
-    pdf.output("data_exploration_"+"float_vars"+".pdf","F")
+    #pdf.output("data_exploration_"+"float_vars"+".pdf","F")
 
     print('#'*100)
     print('PDF Generation complete for Float data type variables')
@@ -280,7 +276,8 @@ def string_datatype_variable(df_metadata,dpi_value,max_threshold_levels_for_inte
                     height + 3,
                     '{:.2%}'.format(height/total),
                     ha="center")
-            ax.figure.savefig(cat_var_path+cole+".png")
+            #ax.figure.savefig(cat_var_path+cole+".png")
+            plt.savefig(cat_var_path+cole+'.pdf', dpi=dpi_value)
         ax = sns.countplot(x=cole, data=df_string).clear()
         plt.cla()
 
@@ -294,29 +291,22 @@ def string_datatype_variable(df_metadata,dpi_value,max_threshold_levels_for_inte
 
     # set here
     image_directory = cat_var_path
-    extensions = ('*.png') #add your image extentions
+    extensions = ('*.pdf') #add your image extentions
     # set 0 if you want to fit pdf to image
     # unit : pt
-    margin = 10
 
-    imagelist=glob.glob(image_directory+'*.png')
+    pdflist=glob.glob(image_directory+'*.pdf')
+    
+    pdflist.sort(key=os.path.getmtime)
+    pdfs = pdflist
+    merger = PdfFileMerger()
 
-    try:
-        imagelist.remove(cat_var_path+'.')
-    except:
-        print ('No other file format detected')
+    for pdf in pdfs:
+        merger.append(pdf,import_bookmarks=False )
 
-    pdf = FPDF('P','mm','A4') # create an A4-size pdf document 
-    pdf = FPDF()
-    x,y,w,h = 10,25,200,150
+    merger.write(directory_path_of_data+'data_exploration_cat_vars.pdf')
+    merger.close()
 
-    for image in imagelist:
-        pdf.add_page()
-        pdf.set_font('Helvetica', 'B', 16)
-        pdf.cell(170, 10, image.split('/')[-1][:-4])
-        pdf.image(image,x,y,w,h)
-
-    pdf.output("data_exploration_"+"cat_vars"+".pdf","F")
 
     print('#'*100)
     print('PDF Generation complete for String/object data type variables')
@@ -382,7 +372,7 @@ def combine_all_PDF(directory_path_of_data,output_pdf):
     print('Check the Exploratory_Data_Analysis.pdf in the following directory '+directory_path_of_data, '!!')
     print('#'*100) 
     
-def EDA(df):
+def EDANEW(df):
     ''' This is the main function where all other fuctions are called and here it create 3 diferent folders to save different data type variables'''
     #Path where data is located
     directory_path_of_data=os.getcwd()+'/'
