@@ -20,6 +20,10 @@ EDA(df)
 # df --> pandas dataframe
 #Please input the DPI value, as DPI value increases runtime would increase. Default DPI value: 150
 ```
+## Run:
+
+![Exploratory Run](https://user-images.githubusercontent.com/114361354/207987543-701d3460-b112-4f65-8c5b-c26dcfefcae5.gif)
+
 ## Expected Outputs:
 * CSV File, DataFrame Containing 
 
@@ -40,7 +44,12 @@ EDA(df)
 | data_types      | Data type of column (Int / Float / Object etc)                      |
 | range           | Max Value - Min Value (Ignores Object/String variables)             |
 
+
+
 * PDF with Statistical Summary and variable distribution graphs  (categorical & continous)
+
+
+![Exported PDF](https://user-images.githubusercontent.com/114361354/207987618-ea144695-f18e-4f38-9bee-d7e313152bf6.gif)
 
 
 ## Contributing
