@@ -20,7 +20,7 @@ EDA(df)
 # df --> pandas dataframe
 #Please input the DPI value, as DPI value increases runtime would increase. Default DPI value: 150
 ```
-##Expected Outputs:
+## Expected Outputs:
 * CSV File, DataFrame Containing 
 
 | Column          | Description                                                         |
